@@ -9,6 +9,18 @@ function NavBar() {
     exact>
       Home
     </NavLink>
+
+    <NavLink
+    to="/income"
+    exact>
+      Income
+    </NavLink>
+
+    <NavLink
+    to="/expense"
+    exact>
+      Expense
+    </NavLink>
   </div>
   )
 }
