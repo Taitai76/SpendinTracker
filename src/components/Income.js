@@ -1,7 +1,12 @@
 import React from "react";
 
 function Income(){
-    return
+    
+    return (
+        <form>
+
+        </form>
+    )
 }
 
 export default Income;
