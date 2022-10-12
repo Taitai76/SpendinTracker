@@ -1,0 +1,15 @@
+{
+    "expenses": [
+      {
+        "id": 1,
+        "name": "Gas",
+        "amount":50
+        
+      },
+      {
+        "id": 2,
+        "name": "Grocerys",
+        "amount": 100
+      }
+    ]
+}
