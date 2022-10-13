@@ -11,5 +11,10 @@
         "name": "Grocerys",
         "amount": 100
       }
-    ]
+    ],
+
+    "income":
+        {
+            "amount":1000
+        }
 }
