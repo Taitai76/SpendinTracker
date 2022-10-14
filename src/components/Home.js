@@ -1,14 +1,6 @@
-import React, { useEffect, useState } from "react";
+import React from "react";
 
-function Home({ income }) {
-  
-  const [expense, setExpense]= useState([])
-
-  useEffect(()=>{
-    fetch("http://localhost:4000/expenses")
-    .then((r) => r.json())
-      .then((items) => setExpense(items));
-  }, []);
+function Home({ income, expense }) {
 
   let totalExpense = expense.map(a => a.amount).reduce((a, current)=>{
     return a + current;

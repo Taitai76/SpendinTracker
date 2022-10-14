@@ -7,11 +7,16 @@ import { Route, Switch } from "react-router";
 
 function App() {
   const [income, setIncome]= useState(0)
+  const [expense, setExpense]= useState([])
 
   useEffect(()=>{
     fetch(("http://localhost:4000/income"))
     .then((r) => r.json())
       .then((items) => setIncome(items.amount));
+      
+    fetch("http://localhost:4000/expenses")
+    .then((r) => r.json())
+      .then((items) => setExpense(items));
   }, []);
 
   return (
@@ -25,7 +30,7 @@ function App() {
         <Expense />
       </Route>
       <Route path="/">
-        <Home income={income}/>
+        <Home income={income} expense={expense}/>
       </Route>
       </Switch>
     </div>
