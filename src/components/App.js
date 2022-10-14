@@ -27,7 +27,7 @@ function App() {
         <Income income={income}/>
       </Route>
       <Route path="/expense">
-        <Expense />
+        <Expense expense={expense}/>
       </Route>
       <Route path="/">
         <Home income={income} expense={expense}/>
