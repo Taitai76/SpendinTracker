@@ -6,7 +6,7 @@ function ExpenseList({name, amount}){
         <div>
             <li>
                 {name}
-                <ExpenseShow />
+                <ExpenseShow amount={amount}/>
             </li>
         </div>
     )
