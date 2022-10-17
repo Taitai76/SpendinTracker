@@ -4,12 +4,28 @@ import ExpenseList from "./ExpenseList";
 function Expense({ expense }){
     const [name, setName]= useState(" ")
     const [amount, setAmount]= useState(0)
-    console.log(amount)
+    
+    function handleSubmit(e) {
+        e.preventDefault();
+        const itemData = {
+          name: name,
+          amount: amount,
+        };
+        fetch("http://localhost:4000/expenses", {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify(itemData),
+        })
+          .then((r) => r.json())
+          .then((newItem) => console.log(newItem));
+      }
 
     return(
         <div>
             Expense Page
-            <form>
+            <form onSubmit={handleSubmit}>
                 <p>Add Expense</p>
                 <label>
                     Expense Name:

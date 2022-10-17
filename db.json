@@ -1,20 +1,22 @@
 {
-    "expenses": [
-      {
-        "id": 1,
-        "name": "Gas",
-        "amount":50
-        
-      },
-      {
-        "id": 2,
-        "name": "Grocerys",
-        "amount": 100
-      }
-    ],
-
-    "income":
-        {
-            "amount":1000
-        }
+  "expenses": [
+    {
+      "id": 1,
+      "name": "Gas",
+      "amount": 50
+    },
+    {
+      "id": 2,
+      "name": "Grocerys",
+      "amount": 100
+    },
+    {
+      "name": " test",
+      "amount": "455",
+      "id": 3
+    }
+  ],
+  "income": {
+    "amount": 1000
+  }
 }
