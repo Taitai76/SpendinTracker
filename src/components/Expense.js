@@ -25,7 +25,7 @@ function Expense({ expense }){
           body: JSON.stringify(itemData),
         })
           .then((r) => r.json())
-          .then((newItem) => console.log(newItem));
+          .then((newItem) => setItems([...expenses, newItem]));
       }
 
     return(
@@ -59,6 +59,7 @@ function Expense({ expense }){
                     key={item.id} 
                     item={item}
                     onDeleteItem={handleDeleteItem}
+
                     />
                 ))
             }
