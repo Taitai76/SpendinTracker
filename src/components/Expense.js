@@ -4,6 +4,12 @@ import ExpenseList from "./ExpenseList";
 function Expense({ expense }){
     const [name, setName]= useState(" ")
     const [amount, setAmount]= useState(0)
+    const [expenses, setItems] = useState(expense);
+
+    function handleDeleteItem(deletedItem) {
+        const updatedItems = expense.filter((item) => item.id !== deletedItem.id);
+        setItems(updatedItems);
+      }
     
     function handleSubmit(e) {
         e.preventDefault();
@@ -48,11 +54,11 @@ function Expense({ expense }){
                 <button type="submit">Add</button>
             </form>
             {
-                expense.map((item)=>(
+                expenses.map((item)=>(
                     <ExpenseList 
                     key={item.id} 
-                    name={item.name}
-                    amount={item.amount}
+                    item={item}
+                    onDeleteItem={handleDeleteItem}
                     />
                 ))
             }

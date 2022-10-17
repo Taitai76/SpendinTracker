@@ -3,13 +3,25 @@ import ExpenseShow from "./ExpenseShow";
 import { Link } from "react-router-dom";
 
 
-function ExpenseList({name, amount}){
+function ExpenseList({item, onDeleteItem}){
+    
+    function handleDeleteClick() {
+        fetch(`http://localhost:4000/items/${item.id}`, {
+          method: "DELETE",
+        })
+          .then((r) => r.json())
+          .then(() => onDeleteItem(item));
+      }
+
     return(
         <div>
             <li>
-                {name}
-                <ExpenseShow amount={amount}/>
+                {item.name}
+                <ExpenseShow amount={item.amount}/>
             </li>
+            <button onClick={handleDeleteClick}>
+               Delete
+            </button>
         </div>
     )
 }
