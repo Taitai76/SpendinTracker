@@ -12,13 +12,8 @@
     },
     {
       "name": " test",
-      "amount": "455",
+      "amount": 200,
       "id": 3
-    },
-    {
-      "name": " test",
-      "amount": "4000",
-      "id": 4
     }
   ],
   "income": {

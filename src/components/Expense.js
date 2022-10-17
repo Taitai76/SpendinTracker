@@ -15,7 +15,7 @@ function Expense({ expense }){
         e.preventDefault();
         const itemData = {
           name: name,
-          amount: amount,
+          amount: parseInt(amount),
         };
         fetch("http://localhost:4000/expenses", {
           method: "POST",
