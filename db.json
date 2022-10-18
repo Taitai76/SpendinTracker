@@ -11,14 +11,9 @@
       "amount": 100
     },
     {
-      "name": " test",
-      "amount": 200,
+      "name": " mibuy",
+      "amount": 700,
       "id": 3
-    },
-    {
-      "name": " test",
-      "amount": 200,
-      "id": 4
     }
   ],
   "income": {

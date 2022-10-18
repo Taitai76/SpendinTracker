@@ -6,7 +6,7 @@ import { Link } from "react-router-dom";
 function ExpenseList({item, onDeleteItem}){
     
     function handleDeleteClick() {
-        fetch(`http://localhost:4000/items/${item.id}`, {
+        fetch(`http://localhost:4000/expenses/${item.id}`, {
           method: "DELETE",
         })
           .then((r) => r.json())

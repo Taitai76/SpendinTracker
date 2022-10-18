@@ -19,6 +19,14 @@ function App() {
       .then((items) => setExpense(items));
   }, []);
 
+  function handleExpenseUpdate(x){
+    setExpense(x)
+  }
+
+  function addExpenses(newItem){
+    setExpense([...expense, newItem])
+  }
+
   return (
     <div>
       <NavBar />
@@ -27,7 +35,10 @@ function App() {
         <Income income={income}/>
       </Route>
       <Route path="/expense">
-        <Expense expense={expense}/>
+        <Expense 
+        expense={expense} 
+        updateExpnsesState={handleExpenseUpdate}
+        addToExpenses={addExpenses}/>
       </Route>
       <Route path="/">
         <Home income={income} expense={expense}/>

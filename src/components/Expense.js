@@ -1,14 +1,20 @@
 import React, { useEffect, useState } from "react";
 import ExpenseList from "./ExpenseList";
 
-function Expense({ expense }){
+function Expense({expense, updateExpnsesState, addToExpenses}){
     const [name, setName]= useState(" ")
     const [amount, setAmount]= useState(0)
-    const [expenses, setItems] = useState(expense);
+    //const [expenses, setItems] = useState([]);
+
+    // useEffect(() => {
+    //     fetch("http://localhost:4000/expenses")
+    //       .then((r) => r.json())
+    //       .then((items) => setItems(items));
+    //   }, []);
 
     function handleDeleteItem(deletedItem) {
         const updatedItems = expense.filter((item) => item.id !== deletedItem.id);
-        setItems(updatedItems);
+        updateExpnsesState(updatedItems);
       }
     
     function handleSubmit(e) {
@@ -25,7 +31,7 @@ function Expense({ expense }){
           body: JSON.stringify(itemData),
         })
           .then((r) => r.json())
-          .then((newItem) => setItems([...expenses, newItem]));
+          .then((newItem) => addToExpenses(newItem));
       }
 
     return(
@@ -54,7 +60,7 @@ function Expense({ expense }){
                 <button type="submit">Add</button>
             </form>
             {
-                expenses.map((item)=>(
+                expense.map((item)=>(
                     <ExpenseList 
                     key={item.id} 
                     item={item}
