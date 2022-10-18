@@ -4,13 +4,6 @@ import ExpenseList from "./ExpenseList";
 function Expense({expense, updateExpnsesState, addToExpenses}){
     const [name, setName]= useState(" ")
     const [amount, setAmount]= useState(0)
-    //const [expenses, setItems] = useState([]);
-
-    // useEffect(() => {
-    //     fetch("http://localhost:4000/expenses")
-    //       .then((r) => r.json())
-    //       .then((items) => setItems(items));
-    //   }, []);
 
     function handleDeleteItem(deletedItem) {
         const updatedItems = expense.filter((item) => item.id !== deletedItem.id);
@@ -36,7 +29,7 @@ function Expense({expense, updateExpnsesState, addToExpenses}){
 
     return(
         <div>
-            Expense Page
+            <h3>Expense Page</h3>
             <form onSubmit={handleSubmit}>
                 <p>Add Expense</p>
                 <label>
@@ -59,13 +52,13 @@ function Expense({expense, updateExpnsesState, addToExpenses}){
                 </label>
                 <button type="submit">Add</button>
             </form>
+            <h3>Your Expenses</h3>
             {
                 expense.map((item)=>(
                     <ExpenseList 
                     key={item.id} 
                     item={item}
                     onDeleteItem={handleDeleteItem}
-
                     />
                 ))
             }
