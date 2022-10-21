@@ -13,6 +13,7 @@ function App() {
     fetch(("http://localhost:4000/income"))
     .then((r) => r.json())
       .then((items) => setIncome(items.amount));
+      console.log(income)
       
     fetch("http://localhost:4000/expenses")
     .then((r) => r.json())
@@ -27,12 +28,16 @@ function App() {
     setExpense([...expense, newItem])
   }
 
+  function updateIncome(newItem){
+    setIncome(newItem)
+  }
+
   return (
     <div>
       <NavBar />
       <Switch>
       <Route path="/income">
-        <Income income={income}/>
+        <Income income={income} updateIncome={updateIncome}/>
       </Route>
       <Route path="/expense">
         <Expense 

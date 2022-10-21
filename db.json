@@ -9,14 +9,9 @@
       "id": 2,
       "name": "Grocerys",
       "amount": 100
-    },
-    {
-      "name": " mibuy",
-      "amount": 700,
-      "id": 3
     }
   ],
   "income": {
-    "amount": 1000
+    "amount": "7000"
   }
 }
