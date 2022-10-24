@@ -13,7 +13,7 @@ code {
 }
 
 .App{
-  padding: 60px;
+  padding: 45px;
 }
 
 .navbar{
@@ -47,6 +47,9 @@ code {
 }
 .homePage h1{
   font-size: 50px;
+}
+.expensesPage{
+  text-align: center;
 }
 .question{
   padding: 15px;

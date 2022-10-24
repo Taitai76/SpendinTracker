@@ -16,9 +16,16 @@
       "id": 3
     },
     {
-      "name": " ",
+      "name": " test3",
       "amount": 0,
+      "date": "Thu Oct 13",
       "id": 4
+    },
+    {
+      "name": "test3",
+      "amount": 0,
+      "date": "Thu Oct 13 2022",
+      "id": 5
     }
   ],
   "income": {

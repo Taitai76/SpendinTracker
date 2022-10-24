@@ -15,9 +15,11 @@ function Expense({expense, updateExpnsesState, addToExpenses}){
     
     function handleSubmit(e) {
         e.preventDefault();
+        let newdate = String(startDate).slice(0, 15);
         const itemData = {
           name: name,
           amount: parseInt(amount),
+          date: newdate
         };
         fetch("http://localhost:4000/expenses", {
           method: "POST",
@@ -30,10 +32,9 @@ function Expense({expense, updateExpnsesState, addToExpenses}){
           .then((newItem) => addToExpenses(newItem));
       }
 
-      console.log(startDate)
 
     return(
-        <div class="center">
+        <div class="expensesPage">
             <h3>Expense Page</h3>
             <form onSubmit={handleSubmit}>
                 <p>Add Expense</p>
@@ -57,7 +58,7 @@ function Expense({expense, updateExpnsesState, addToExpenses}){
                 </label>
                 <label>
                   Date:
-                <DatePicker selected={startDate} onChange={(date) => setStartDate(date)} />
+                <DatePicker type='date' selected={startDate} onChange={(date) => setStartDate(date)} />
                 </label>
                 <button type="submit">Add</button>
             </form>
