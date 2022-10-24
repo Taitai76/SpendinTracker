@@ -33,7 +33,7 @@ function App() {
   }
 
   return (
-    <div>
+    <div className="App">
       <NavBar />
       <Switch>
       <Route path="/income">

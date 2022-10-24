@@ -1,9 +1,12 @@
 import React, { useEffect, useState } from "react";
 import ExpenseList from "./ExpenseList";
+import DatePicker from "react-datepicker"
+import "react-datepicker/dist/react-datepicker.css";
 
 function Expense({expense, updateExpnsesState, addToExpenses}){
     const [name, setName]= useState(" ")
     const [amount, setAmount]= useState(0)
+    const [startDate, setStartDate] = useState();
 
     function handleDeleteItem(deletedItem) {
         const updatedItems = expense.filter((item) => item.id !== deletedItem.id);
@@ -27,12 +30,14 @@ function Expense({expense, updateExpnsesState, addToExpenses}){
           .then((newItem) => addToExpenses(newItem));
       }
 
+      console.log(startDate)
+
     return(
-        <div>
+        <div class="center">
             <h3>Expense Page</h3>
             <form onSubmit={handleSubmit}>
                 <p>Add Expense</p>
-                <label>
+                <label class="question">
                     Expense Name:
                     <input 
                     type='text' 
@@ -41,7 +46,7 @@ function Expense({expense, updateExpnsesState, addToExpenses}){
                     onChange={(e) => setName(e.target.value)} 
                     />
                 </label>
-                <label>
+                <label class="question">
                     Expense amount:
                     <input 
                     type='text' 
@@ -49,6 +54,10 @@ function Expense({expense, updateExpnsesState, addToExpenses}){
                     value={amount}
                     onChange={(e) => setAmount(e.target.value)} 
                     />
+                </label>
+                <label>
+                  Date:
+                <DatePicker selected={startDate} onChange={(date) => setStartDate(date)} />
                 </label>
                 <button type="submit">Add</button>
             </form>

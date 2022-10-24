@@ -21,7 +21,7 @@ function Income({ income, updateIncome }){
     }
 
     return (
-        <div>
+        <div class="center">
             Income
             <form onSubmit={handleSubmit}>
                 <p>Current monthly income is ${income}</p>
