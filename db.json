@@ -1,31 +1,9 @@
 {
   "expenses": [
     {
-      "id": 1,
-      "name": "Gas",
-      "amount": 50
-    },
-    {
-      "id": 2,
-      "name": "Grocerys",
-      "amount": 100
-    },
-    {
-      "name": " netflix",
-      "amount": 20,
-      "id": 3
-    },
-    {
-      "name": " test3",
-      "amount": 0,
-      "date": "Thu Oct 13",
-      "id": 4
-    },
-    {
-      "name": "test3",
-      "amount": 0,
-      "date": "Thu Oct 13 2022",
-      "id": 5
+      "name": " Test",
+      "amount": 4000,
+      "id": 1
     }
   ],
   "income": {

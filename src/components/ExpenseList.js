@@ -1,5 +1,4 @@
 import React from "react";
-import ExpenseShow from "./ExpenseShow";
 import { Link } from "react-router-dom";
 
 
@@ -14,12 +13,12 @@ function ExpenseList({item, onDeleteItem}){
       }
 
     return(
-        <div>
+        <div class="expensesList">
             <li>
-                {item.name}
-                <ExpenseShow amount={item.amount}/>
+                {item.name} $
+                {item.amount}
             </li>
-            <button onClick={handleDeleteClick}>
+            <button class="deleteBtn" onClick={handleDeleteClick}>
                Delete
             </button>
         </div>

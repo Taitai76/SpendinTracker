@@ -21,11 +21,11 @@ function Income({ income, updateIncome }){
     }
 
     return (
-        <div class="center">
-            Income
+        <div class="income">
+            <h3>Income</h3>
             <form onSubmit={handleSubmit}>
                 <p>Current monthly income is ${income}</p>
-                <label>
+                <label class="question">
                     Update Income:
                     <input 
                     type='text' 
@@ -33,7 +33,7 @@ function Income({ income, updateIncome }){
                     value={amount} 
                     onChange={(e)=>setAmount(e.target.value)} />
                 </label>
-                <button type="submit">Update</button>
+                <button class="updateBtn" type="submit">Update</button>
             </form>
         </div>
     )

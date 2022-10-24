@@ -3,13 +3,7 @@ body {
   font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen',
     'Ubuntu', 'Cantarell', 'Fira Sans', 'Droid Sans', 'Helvetica Neue',
     sans-serif;
-  background-color: aqua;
-
-}
-
-code {
-  font-family: source-code-pro, Menlo, Monaco, Consolas, 'Courier New',
-    monospace;
+  background-color: #17AAAA;
 }
 
 .App{
@@ -19,9 +13,9 @@ code {
 .navbar{
   text-align: center;
   text-decoration: none;
-  border: khaki;
-  border-style: solid;
-  border-radius: 5px;
+  background-color: #FFA42E;
+  border-style: hidden;
+  border-radius: 10px;
 }
 
 .navbar li{
@@ -43,14 +37,91 @@ code {
 .homePage{
   display: block;
   text-align: center;
-  border: left solid black;
+  border: 2px hidden orange;
+  border-radius: 10px;
+  background-color: #EEEEEE;
+  font-size: large;
 }
 .homePage h1{
   font-size: 50px;
 }
 .expensesPage{
   text-align: center;
+  border: 2px hidden orange;
+  border-radius: 10px;
+  background-color: #EEEEEE;
+  font-size: large;
+}
+.expensesPage label{
+  display: inline-table;
+}
+.expensesPage form{
+  border-bottom: 3px solid black;
+  border-width: 40%;
 }
 .question{
   padding: 15px;
+  font-size: larger;
 }
+.question input{
+  border: none;
+  border-bottom: 2px solid #FFA42E;
+  background-color: #EEEEEE;
+  font-size: small;
+}
+.btn {
+  cursor: pointer;
+  background-color: #FFA42E;
+  box-shadow: var(--box-shadow);
+  color: #363636;
+  border: hidden;
+  border-radius: 10px;
+  font-size: 20px;
+  margin: 10px 0 30px;
+  padding: 10px;
+  width: 30%;
+}
+.deleteBtn {
+  cursor: pointer;
+  background-color: #F63F3A;
+  box-shadow: var(--box-shadow);
+  color: #363636;
+  border: hidden;
+  border-radius: 10px;
+  font-size: 20px;
+  margin: 10px 0 30px;
+  padding: 10px;
+  width: 15%;
+}
+.updateBtn{
+  cursor: pointer;
+  background-color: #FFA42E;
+  box-shadow: var(--box-shadow);
+  color: #363636;
+  border: hidden;
+  border-radius: 10px;
+  font-size: 20px;
+  margin: 10px 0 30px;
+  padding: 10px;
+  width: 15%;
+}
+.expensesList{
+  border-top: 3px;
+  border-width: 60%;
+}
+.expensesList li{
+  font-size: 20px;
+  text-decoration: none;
+  list-style: none;
+}
+.income{
+  text-align: center;
+  border: 2px hidden orange;
+  border-radius: 10px;
+  background-color: #EEEEEE;
+  font-size: large;
+}
+.income form{
+  font-size: 20px;
+}
+
