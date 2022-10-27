@@ -45,7 +45,7 @@ function App() {
         updateExpnsesState={handleExpenseUpdate}
         addToExpenses={addExpenses}/>
       </Route>
-      <Route path="/">
+      <Route exact path="/">
         <Home income={income} expense={expense}/>
       </Route>
       </Switch>

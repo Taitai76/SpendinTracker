@@ -10,27 +10,26 @@ body {
   padding: 45px;
 }
 
-.navbar{
+nav{
   text-align: center;
-  text-decoration: none;
   background-color: #FFA42E;
   border-style: hidden;
   border-radius: 10px;
-}
-
-.navbar li{
-  display: inline-block;
-  padding: 10px;
   font-size: 25px;
+  transition: 0.1s
 }
-.nav-bar-link{
-  color: black;
+nav a{
+  padding: 10px;
   text-decoration: none;
+  color: #17AAAA;
 }
-.nav-bar-link:hover{
+nav a:hover{
+  color: black;
+}
+nav a:active{
   color: white;
 }
-.nav-bar-link:visited{
+nav a:visited{
   text-decoration: none;
 }
 
