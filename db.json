@@ -1,22 +1,13 @@
 {
   "expenses": [
     {
-      "name": " Gas",
-      "amount": 70,
+      "name": "rent ",
+      "amount": 60,
+      "date": "2022-10-01",
       "id": 1
-    },
-    {
-      "name": "Groceries ",
-      "amount": 150,
-      "id": 2
-    },
-    {
-      "name": "Rent",
-      "amount": 2000,
-      "id": 3
     }
   ],
   "income": {
-    "amount": "6000"
+    "amount": "10000"
   }
 }

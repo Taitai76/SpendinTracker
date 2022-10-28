@@ -3,6 +3,7 @@ import NavBar from "./NavBar";
 import Expense from "./Expense";
 import Income from "./Income";
 import Home from "./Home";
+import ExpenseDetail from "./ExpenseDetail"
 import { Route, Switch } from "react-router";
 
 function App() {
@@ -13,7 +14,6 @@ function App() {
     fetch(("http://localhost:4000/income"))
     .then((r) => r.json())
       .then((items) => setIncome(items.amount));
-      console.log(income)
       
     fetch("http://localhost:4000/expenses")
     .then((r) => r.json())
@@ -39,11 +39,14 @@ function App() {
       <Route path="/income">
         <Income income={income} updateIncome={updateIncome}/>
       </Route>
-      <Route path="/expense">
+      <Route  exact path="/expense">
         <Expense 
         expense={expense} 
         updateExpnsesState={handleExpenseUpdate}
         addToExpenses={addExpenses}/>
+      </Route>
+      <Route path="/expense/:id">
+        <ExpenseDetail />
       </Route>
       <Route exact path="/">
         <Home income={income} expense={expense}/>

@@ -15,9 +15,9 @@ function ExpenseList({item, onDeleteItem}){
     return(
         <div class="expensesList">
             <li>
-                {item.name} $
-                {item.amount}
+                {item.name} 
             </li>
+            <Link to={`/expense/${item.id}`} > More</Link>
             <button class="deleteBtn" onClick={handleDeleteClick}>
                Delete
             </button>

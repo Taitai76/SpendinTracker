@@ -5,6 +5,7 @@ import ExpenseList from "./ExpenseList";
 function Expense({expense, updateExpnsesState, addToExpenses}){
     const [name, setName]= useState(" ")
     const [amount, setAmount]= useState(0)
+    const [date, setDate]= useState("0000-00-00")
     
 
     function handleDeleteItem(deletedItem) {
@@ -16,7 +17,8 @@ function Expense({expense, updateExpnsesState, addToExpenses}){
         e.preventDefault();
         const itemData = {
           name: name,
-          amount: parseInt(amount)
+          amount: parseInt(amount),
+          date: date
         };
         fetch("http://localhost:4000/expenses", {
           method: "POST",
@@ -53,6 +55,14 @@ function Expense({expense, updateExpnsesState, addToExpenses}){
                     value={amount}
                     onChange={(e) => setAmount(e.target.value)} 
                     />
+                </label>
+                <label class='question'>
+                  Date:
+                  <input 
+                  type="date"
+                  value={date}
+                  onChange={(e)=> setDate(e.target.value)}
+                  />
                 </label>
                 <button class="btn" type="submit">Add</button>
             </form>

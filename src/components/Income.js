@@ -1,7 +1,6 @@
 import React, { useEffect, useState } from "react";
 
 function Income({ income, updateIncome }){
-
     const [amount, setAmount]= useState(0);
 
     function handleSubmit(e){
