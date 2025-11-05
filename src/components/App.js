@@ -4,19 +4,21 @@ import Expense from "./Expense";
 import Income from "./Income";
 import Home from "./Home";
 import ExpenseDetail from "./ExpenseDetail"
-import { Route, Switch } from "react-router";
+import { Route, Switch } from "react-router-dom";
 
 function App() {
   const [income, setIncome]= useState(0)
   const [expense, setExpense]= useState([])
 
   useEffect(()=>{
-    fetch(("http://localhost:4000/income"))
+    fetch((`${API_BASE}/income`))
     .then((r) => r.json())
       .then((items) => setIncome(items.amount));
       
-    fetch("http://localhost:4000/expenses")
-    .then((r) => r.json())
+    fetch(
+      `${API_BASE}/expenses`
+    )
+      .then((r) => r.json())
       .then((items) => setExpense(items));
   }, []);
 

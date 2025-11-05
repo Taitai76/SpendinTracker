@@ -6,25 +6,28 @@ function Income({ income, updateIncome }){
     function handleSubmit(e){
         e.preventDefault();
     
-        fetch(`http://localhost:4000/income`, {
-      method: "PATCH",
-      headers: {
-        "Content-Type": "application/json",
-      },
-      body: JSON.stringify({
-        amount: amount
-      }),
-    })
-      .then((r) => r.json())
-      .then((updatedItem) => updateIncome(updatedItem.amount));
+        fetch(
+          `${API_BASE}/income`,
+          {
+            method: "PATCH",
+            headers: {
+              "Content-Type": "application/json",
+            },
+            body: JSON.stringify({
+              amount: amount,
+            }),
+          }
+        )
+          .then((r) => r.json())
+          .then((updatedItem) => updateIncome(updatedItem.amount));
     }
 
     return (
-        <div class="income">
+        <div className="income">
             <h3>Income</h3>
             <form onSubmit={handleSubmit}>
                 <p>Current monthly income is ${income}</p>
-                <label class="question">
+                <label className="question">
                     Update Income:
                     <input 
                     type='text' 
@@ -32,7 +35,7 @@ function Income({ income, updateIncome }){
                     value={amount} 
                     onChange={(e)=>setAmount(e.target.value)} />
                 </label>
-                <button class="updateBtn" type="submit">Update</button>
+                <button className="updateBtn" type="submit">Update</button>
             </form>
         </div>
     )

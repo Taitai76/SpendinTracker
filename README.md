@@ -8,3 +8,6 @@ One of the best thing one can do to improve their financial wellbeing is keeping
 
 ## Installation
 To install, clone the HTTPS of the project from Github and run npm install.
+
+Deployed on AWS
+http://simple-expense-tracker.s3-website.us-east-2.amazonaws.com/

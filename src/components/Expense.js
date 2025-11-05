@@ -20,24 +20,27 @@ function Expense({expense, updateExpnsesState, addToExpenses}){
           amount: parseInt(amount),
           date: date
         };
-        fetch("http://localhost:4000/expenses", {
-          method: "POST",
-          headers: {
-            "Content-Type": "application/json",
-          },
-          body: JSON.stringify(itemData),
-        })
+        fetch(
+          `${API_BASE}/expenses`,
+          {
+            method: "POST",
+            headers: {
+              "Content-Type": "application/json",
+            },
+            body: JSON.stringify(itemData),
+          }
+        )
           .then((r) => r.json())
           .then((newItem) => addToExpenses(newItem));
       }
 
 
     return(
-        <div class="expensesPage">
+        <div className="expensesPage">
             <h3>Expense Page</h3>
             <form onSubmit={handleSubmit}>
                 <p>Add Expense</p>
-                <label class="question">
+                <label className="question">
                     Expense Name:
                     <input 
                     type='text' 
@@ -47,7 +50,7 @@ function Expense({expense, updateExpnsesState, addToExpenses}){
                     />
                 </label>
 
-                <label class="question">
+                <label className="question">
                     Expense amount:
                     <input 
                     type='text' 
@@ -56,7 +59,7 @@ function Expense({expense, updateExpnsesState, addToExpenses}){
                     onChange={(e) => setAmount(e.target.value)} 
                     />
                 </label>
-                <label class='question'>
+                <label className='question'>
                   Date:
                   <input 
                   type="date"
@@ -64,7 +67,7 @@ function Expense({expense, updateExpnsesState, addToExpenses}){
                   onChange={(e)=> setDate(e.target.value)}
                   />
                 </label>
-                <button class="btn" type="submit">Add</button>
+                <button className="btn" type="submit">Add</button>
             </form>
             <h3>Your Expenses</h3>
             {

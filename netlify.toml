@@ -1,0 +1,15 @@
+[build]
+  command = "npm run build"
+  publish = "build"   # CRA; if Vite, set to "dist"
+
+# SPA fallback so refreshes work
+[[redirects]]
+  from = "/*"
+  to = "/index.html"
+  status = 200
+
+# Route /api/* to a single function "api"
+[[redirects]]
+  from = "/api/*"
+  to = "/.netlify/functions/api/:splat"
+  status = 200

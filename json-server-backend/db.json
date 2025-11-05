@@ -1,0 +1,19 @@
+{
+  "expenses": [
+    {
+      "name": " Rent",
+      "amount": 2000,
+      "date": "2022-10-01",
+      "id": 1
+    },
+    {
+      "name": "Gas",
+      "amount": 50,
+      "date": "2022-10-11",
+      "id": 2
+    }
+  ],
+  "income": {
+    "amount": "40000"
+  }
+}
