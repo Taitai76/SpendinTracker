@@ -12,15 +12,15 @@ function App() {
   const [expense, setExpense]= useState([])
 
   useEffect(()=>{
-    fetch((`${API_BASE}/income`))
-    .then((r) => r.json())
-      .then((items) => setIncome(items.amount));
-      
-    fetch(
-      `${API_BASE}/expenses`
-    )
-      .then((r) => r.json())
-      .then((items) => setExpense(items));
+    fetch(`${API_BASE}/income`)
+      .then(async (r) => r.ok ? r.json() : { amount: 0 })
+      .then((items) => setIncome(Number(items?.amount) || 0))
+      .catch(() => setIncome(0));
+
+    fetch(`${API_BASE}/expenses`)
+      .then(async (r) => r.ok ? r.json() : [])
+      .then((items) => setExpense(Array.isArray(items) ? items : []))
+      .catch(() => setExpense([]));
   }, []);
 
   function handleExpenseUpdate(x){
