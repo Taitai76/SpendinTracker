@@ -73,7 +73,21 @@ exports.handler = async (event) => {
     const rawPath = event.path || '';
     let subpath = rawPath;
 
+    const prefixes = [
+     '/.netlify/functions/api/',
+     '/.netlify/functions/api',
+     '/api/',
+     '/api'
+    ];
+    for (const prefix of prefixes) {
+  if (subpath.startsWith(prefix)) {
+    subpath = subpath.slice(prefix.length);
+    break;
+  }
+}
+if (subpath.startsWith('/')) subpath = subpath.slice(1);
 
+const [resource, id] = (subpath || '').split('/');
     if (resource === 'health') return ok({ ok: true });
 
     const incomeStore    = safeGetStore('income');
