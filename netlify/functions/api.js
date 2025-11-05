@@ -70,11 +70,9 @@ exports.handler = async (event) => {
   try {
     if (event.httpMethod === 'OPTIONS') return ok({ ok: true });
 
-    const apiRoot = '/.netlify/functions/api';
     const rawPath = event.path || '';
-    let subpath = rawPath.startsWith(apiRoot) ? rawPath.slice(apiRoot.length) : rawPath;
-    if (subpath.startsWith('/')) subpath = subpath.slice(1); // e.g., "expenses/123"
-    const [resource, id] = (subpath || '').split('/');
+    let subpath = rawPath;
+
 
     if (resource === 'health') return ok({ ok: true });
 
