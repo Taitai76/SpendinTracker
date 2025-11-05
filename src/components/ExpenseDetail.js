@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from "react";
 import { useParams } from "react-router";
+import { API_BASE } from '../api';
 
 function ExpenseDetail(){
     const [expense, setExpense]=useState(null)

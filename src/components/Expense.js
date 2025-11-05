@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from "react";
 import ExpenseList from "./ExpenseList";
+import { API_BASE } from '../api';
 
 
 function Expense({expense, updateExpnsesState, addToExpenses}){

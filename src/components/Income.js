@@ -1,4 +1,5 @@
 import React, { useEffect, useState } from "react";
+import { API_BASE } from '../api';
 
 function Income({ income, updateIncome }){
     const [amount, setAmount]= useState(0);
