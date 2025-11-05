@@ -5,6 +5,7 @@ import Income from "./Income";
 import Home from "./Home";
 import ExpenseDetail from "./ExpenseDetail"
 import { Route, Switch } from "react-router-dom";
+import { API_BASE } from '../api';
 
 function App() {
   const [income, setIncome]= useState(0)
