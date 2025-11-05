@@ -1,7 +1,7 @@
-import { getStore } from '@netlify/blobs';
+// netlify/functions/api.js
+const { getStore } = require('@netlify/blobs');
 
-// Small helpers
-const ok = (data, status = 200) => ({
+const json = (status, data) => ({
   statusCode: status,
   headers: {
     'Content-Type': 'application/json',
@@ -11,55 +11,65 @@ const ok = (data, status = 200) => ({
   },
   body: JSON.stringify(data),
 });
-const err = (message, status = 500, detail) =>
-  ok({ error: message, detail }, status);
 
-const readJSON = async (store, key, fallback) => {
+const ok = (data, status = 200) => json(status, data);
+const err = (message, status = 500, detail) => json(status, { error: message, detail });
+
+async function readJSON(store, key, fallback) {
   try {
-    const val = await store.get(key, { type: 'json' }); // parses JSON for us
+    const val = await store.get(key, { type: 'json' }); // parses JSON when valid
     return val ?? fallback;
   } catch (e) {
-    console.error('readJSON error', key, e);
+    console.error('readJSON error:', key, e);
     return fallback;
   }
-};
-const writeJSON = async (store, key, value) => {
+}
+
+async function writeJSON(store, key, value) {
   try {
     await store.set(key, JSON.stringify(value), { contentType: 'application/json' });
   } catch (e) {
-    console.error('writeJSON error', key, e);
+    console.error('writeJSON error:', key, e);
     throw e;
   }
-};
+}
 
-export async function handler(event) {
+exports.handler = async (event) => {
   try {
     if (event.httpMethod === 'OPTIONS') return ok({ ok: true });
 
-    // After Netlify redirect, paths look like: "/.netlify/functions/api/expenses/123"
-    const rawPath = event.path || '';
+    // After redirect: "/.netlify/functions/api/expenses/123"
     const apiRoot = '/.netlify/functions/api';
+    const rawPath = event.path || '';
     let subpath = rawPath.startsWith(apiRoot) ? rawPath.slice(apiRoot.length) : rawPath;
-    if (subpath.startsWith('/')) subpath = subpath.slice(1); // e.g., "expenses/123" or ""
+    if (subpath.startsWith('/')) subpath = subpath.slice(1); // "expenses/123"
+    const [resource, id] = (subpath || '').split('/');
 
-    // Health check: GET /api/health
-    if (subpath === 'health') return ok({ ok: true });
+    // Simple health + admin reset helpers
+    if (resource === 'health') return ok({ ok: true });
 
-    const [resource, id] = subpath.split('/');
-    const incomeStore = getStore('income');
+    const incomeStore   = getStore('income');
     const expensesStore = getStore('expenses');
 
-    // Initialize defaults once (no-ops if already set)
-    const incomeDefault = await readJSON(incomeStore, 'current', { amount: 0 });
-    await writeJSON(incomeStore, 'current', incomeDefault);
-    const expensesDefault = await readJSON(expensesStore, 'list', []);
-    await writeJSON(expensesStore, 'list', expensesDefault);
+    // Initialize defaults if missing/corrupt (prevents 500s)
+    const income = await readJSON(incomeStore, 'current', { amount: 0 });
+    await writeJSON(incomeStore, 'current', income);
+    let expenses = await readJSON(expensesStore, 'list', []);
+    if (!Array.isArray(expenses)) expenses = [];
+    await writeJSON(expensesStore, 'list', expenses);
+
+    // Admin reset: GET /api/admin/reset  (useful if data got corrupted)
+    if (resource === 'admin' && id === 'reset' && event.httpMethod === 'GET') {
+      await writeJSON(incomeStore, 'current', { amount: 0 });
+      await writeJSON(expensesStore, 'list', []);
+      return ok({ ok: true, reset: true });
+    }
 
     // Routes
     if (resource === 'income') {
       if (event.httpMethod === 'GET') {
-        const income = await readJSON(incomeStore, 'current', { amount: 0 });
-        return ok(income);
+        const val = await readJSON(incomeStore, 'current', { amount: 0 });
+        return ok(val);
       }
       if (event.httpMethod === 'PATCH') {
         let body = {};
@@ -73,6 +83,7 @@ export async function handler(event) {
 
     if (resource === 'expenses') {
       let list = await readJSON(expensesStore, 'list', []);
+      if (!Array.isArray(list)) list = [];
 
       if (event.httpMethod === 'GET') {
         if (id) {
@@ -107,10 +118,9 @@ export async function handler(event) {
       return err('Method not allowed', 405);
     }
 
-    // Unknown route
     return err('Unknown endpoint', 404, { path: subpath });
   } catch (e) {
-    console.error('Handler crash', e);
+    console.error('Handler crash:', e);
     return err('Server error', 500, String(e && e.message ? e.message : e));
   }
-}
+};
