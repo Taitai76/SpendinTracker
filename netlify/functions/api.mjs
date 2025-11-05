@@ -1,77 +1,90 @@
-// netlify/functions/api.mjs
 import { getStore } from '@netlify/blobs';
 
-/**
- * Data model (simple & json-server-like):
- * - "income": a single object  { amount: number }
- * - "expenses": an array of     [{ id, name, amount, date }]
- */
-
-const incomeStore  = getStore('income');
-const expensesStore = getStore('expenses');
-
-const json = (status, data) => ({
+// Small helpers
+const ok = (data, status = 200) => ({
   statusCode: status,
   headers: {
     'Content-Type': 'application/json',
-    // CORS for dev and prod (tighten origin if you want)
     'Access-Control-Allow-Origin': '*',
     'Access-Control-Allow-Methods': 'GET,POST,PATCH,DELETE,OPTIONS',
-    'Access-Control-Allow-Headers': 'Content-Type'
+    'Access-Control-Allow-Headers': 'Content-Type',
   },
   body: JSON.stringify(data),
 });
+const err = (message, status = 500, detail) =>
+  ok({ error: message, detail }, status);
 
 const readJSON = async (store, key, fallback) => {
-  const val = await store.get(key, { type: 'json' }); // parses JSON
-  return val ?? fallback;
-};
-
-const writeJSON = async (store, key, value) => {
-  // store.set auto-serializes when type=json in get; we store raw JSON
-  await store.set(key, JSON.stringify(value), { contentType: 'application/json' });
-};
-
-export async function handler(event, context) {
-  if (event.httpMethod === 'OPTIONS') return json(200, { ok: true });
-
-  const path = (event.path || '').replace('/.netlify/functions/api', '').replace(/^\/+/, '');
-  const [resource, id] = path.split('/'); // e.g., "expenses", "123"
-
   try {
+    const val = await store.get(key, { type: 'json' }); // parses JSON for us
+    return val ?? fallback;
+  } catch (e) {
+    console.error('readJSON error', key, e);
+    return fallback;
+  }
+};
+const writeJSON = async (store, key, value) => {
+  try {
+    await store.set(key, JSON.stringify(value), { contentType: 'application/json' });
+  } catch (e) {
+    console.error('writeJSON error', key, e);
+    throw e;
+  }
+};
+
+export async function handler(event) {
+  try {
+    if (event.httpMethod === 'OPTIONS') return ok({ ok: true });
+
+    // After Netlify redirect, paths look like: "/.netlify/functions/api/expenses/123"
+    const rawPath = event.path || '';
+    const apiRoot = '/.netlify/functions/api';
+    let subpath = rawPath.startsWith(apiRoot) ? rawPath.slice(apiRoot.length) : rawPath;
+    if (subpath.startsWith('/')) subpath = subpath.slice(1); // e.g., "expenses/123" or ""
+
+    // Health check: GET /api/health
+    if (subpath === 'health') return ok({ ok: true });
+
+    const [resource, id] = subpath.split('/');
+    const incomeStore = getStore('income');
+    const expensesStore = getStore('expenses');
+
+    // Initialize defaults once (no-ops if already set)
+    const incomeDefault = await readJSON(incomeStore, 'current', { amount: 0 });
+    await writeJSON(incomeStore, 'current', incomeDefault);
+    const expensesDefault = await readJSON(expensesStore, 'list', []);
+    await writeJSON(expensesStore, 'list', expensesDefault);
+
+    // Routes
     if (resource === 'income') {
-      // GET /api/income
       if (event.httpMethod === 'GET') {
         const income = await readJSON(incomeStore, 'current', { amount: 0 });
-        return json(200, income);
+        return ok(income);
       }
-
-      // PATCH /api/income   { amount }
       if (event.httpMethod === 'PATCH') {
-        const body = JSON.parse(event.body || '{}');
-        const next = { amount: Number(body.amount || 0) };
+        let body = {};
+        try { body = JSON.parse(event.body || '{}'); } catch {}
+        const next = { amount: Number(body.amount ?? 0) };
         await writeJSON(incomeStore, 'current', next);
-        return json(200, next);
+        return ok(next);
       }
-
-      return json(405, { error: 'Method not allowed' });
+      return err('Method not allowed', 405);
     }
 
     if (resource === 'expenses') {
       let list = await readJSON(expensesStore, 'list', []);
 
-      // GET /api/expenses or /api/expenses/:id
       if (event.httpMethod === 'GET') {
         if (id) {
           const item = list.find(x => String(x.id) === String(id));
-          return item ? json(200, item) : json(404, { error: 'Not found' });
+          return item ? ok(item) : err('Not found', 404);
         }
-        return json(200, list);
+        return ok(list);
       }
 
-      // POST /api/expenses   { name, amount, date }
       if (event.httpMethod === 'POST') {
-        const body = JSON.parse(event.body || '{}');
+        let body = {};
+        try { body = JSON.parse(event.body || '{}'); } catch {}
         const newItem = {
           id: list.length ? Math.max(...list.map(x => Number(x.id))) + 1 : 1,
           name: String(body.name || '').trim(),
@@ -80,25 +93,24 @@ export async function handler(event, context) {
         };
         list = [...list, newItem];
         await writeJSON(expensesStore, 'list', list);
-        return json(201, newItem);
+        return ok(newItem, 201);
       }
 
-      // DELETE /api/expenses/:id
       if (event.httpMethod === 'DELETE') {
-        if (!id) return json(400, { error: 'Missing id' });
+        if (!id) return err('Missing id', 400);
         const exists = list.some(x => String(x.id) === String(id));
         list = list.filter(x => String(x.id) !== String(id));
         await writeJSON(expensesStore, 'list', list);
-        return exists ? json(200, { ok: true }) : json(404, { error: 'Not found' });
+        return exists ? ok({ ok: true }) : err('Not found', 404);
       }
 
-      return json(405, { error: 'Method not allowed' });
+      return err('Method not allowed', 405);
     }
 
-    // default: 404 for unknown resources
-    return json(404, { error: 'Unknown endpoint' });
+    // Unknown route
+    return err('Unknown endpoint', 404, { path: subpath });
   } catch (e) {
-    console.error(e);
-    return json(500, { error: 'Server error', detail: String(e.message || e) });
+    console.error('Handler crash', e);
+    return err('Server error', 500, String(e && e.message ? e.message : e));
   }
 }
